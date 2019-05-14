@@ -11,7 +11,7 @@ import javax.annotation.Generated;
 public class SimpleQuestion {
 
     @SerializedName("Answers")
-    private Answers mAnswers;
+    private AnswersArray mAnswers;
 
     @Override
     public String toString() {
@@ -30,11 +30,11 @@ public class SimpleQuestion {
     @SerializedName("_xmlns:d3p1")
     private String m_xmlnsD3p1;
 
-    public Answers getAnswers() {
+    public AnswersArray getAnswers() {
         return mAnswers;
     }
 
-    public void setAnswers(Answers answers) {
+    public void setAnswers(AnswersArray answers) {
         mAnswers = answers;
     }
 

@@ -1,16 +1,12 @@
-
 package com.goldmines.JsonPojos;
 
-import javax.annotation.Generated;
 import com.google.gson.annotations.SerializedName;
 
-@Generated("net.hexar.json2pojo")
-@SuppressWarnings("unused")
-public class Explain {
+public class ExplainAnswer {
 
     @Override
     public String toString() {
-        return "Explain{" +
+        return "ExplainAnswer{" +
                 "mAnswers='" + mAnswers + '\'' +
                 ", mMedia=" + mMedia +
                 ", mQid='" + mQid + '\'' +
@@ -20,7 +16,7 @@ public class Explain {
     @SerializedName("Answers")
     private String mAnswers;
     @SerializedName("Media")
-    private Media mMedia;
+    private MediaAnswer mMedia;
     @SerializedName("qid")
     private String mQid;
 
@@ -32,11 +28,11 @@ public class Explain {
         mAnswers = answers;
     }
 
-    public Media getMedia() {
+    public MediaAnswer getMedia() {
         return mMedia;
     }
 
-    public void setMedia(Media media) {
+    public void setMedia(MediaAnswer media) {
         mMedia = media;
     }
 
@@ -47,5 +43,4 @@ public class Explain {
     public void setQid(String qid) {
         mQid = qid;
     }
-
 }

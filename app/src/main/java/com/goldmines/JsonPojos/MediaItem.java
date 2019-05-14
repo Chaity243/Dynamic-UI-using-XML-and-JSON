@@ -10,6 +10,26 @@ public class MediaItem {
 
     @SerializedName("align")
     private String mAlign;
+
+    @Override
+    public String toString() {
+        return "MediaItem{" +
+                "mAlign='" + mAlign + '\'' +
+                ", mColor='" + mColor + '\'' +
+                ", mContent='" + mContent + '\'' +
+                ", mEssayid='" + mEssayid + '\'' +
+                ", mFilename='" + mFilename + '\'' +
+                ", mFont='" + mFont + '\'' +
+                ", mHints='" + mHints + '\'' +
+                ", mLocation='" + mLocation + '\'' +
+                ", mLocked='" + mLocked + '\'' +
+                ", mScrollable='" + mScrollable + '\'' +
+                ", mSignature='" + mSignature + '\'' +
+                ", mSize='" + mSize + '\'' +
+                ", mWasRendered='" + mWasRendered + '\'' +
+                '}';
+    }
+
     @SerializedName("color")
     private String mColor;
     @SerializedName("content")

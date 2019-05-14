@@ -7,7 +7,14 @@ import com.google.gson.annotations.SerializedName;
 
 @Generated("net.hexar.json2pojo")
 @SuppressWarnings("unused")
-public class Answers {
+public class AnswersArray {
+
+    @Override
+    public String toString() {
+        return "AnswersArray{" +
+                "mAnswerItem=" + mAnswerItem +
+                '}';
+    }
 
     @SerializedName("AnswerItem")
     private List<AnswerItem> mAnswerItem;

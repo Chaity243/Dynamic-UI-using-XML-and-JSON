@@ -19,9 +19,30 @@ public class AnswerItem {
     @SerializedName("essayid")
     private String mEssayid;
     @SerializedName("explain")
-    private Explain mExplain;
+    private ExplainAnswer mExplain;
     @SerializedName("font")
     private String mFont;
+
+    @Override
+    public String toString() {
+        return "AnswerItem{" +
+                "mAlign='" + mAlign + '\'' +
+                ", mColor='" + mColor + '\'' +
+                ", mContent='" + mContent + '\'' +
+                ", mCorrect='" + mCorrect + '\'' +
+                ", mEssayid='" + mEssayid + '\'' +
+                ", mExplain=" + mExplain +
+                ", mFont='" + mFont + '\'' +
+                ", mHints='" + mHints + '\'' +
+                ", mLocation='" + mLocation + '\'' +
+                ", mLocked='" + mLocked + '\'' +
+                ", mScrollable='" + mScrollable + '\'' +
+                ", mSignature='" + mSignature + '\'' +
+                ", mSize='" + mSize + '\'' +
+                ", mWasRendered='" + mWasRendered + '\'' +
+                '}';
+    }
+
     @SerializedName("hints")
     private String mHints;
     @SerializedName("location")
@@ -77,11 +98,11 @@ public class AnswerItem {
         mEssayid = essayid;
     }
 
-    public Explain getExplain() {
+    public ExplainAnswer getExplain() {
         return mExplain;
     }
 
-    public void setExplain(Explain explain) {
+    public void setExplain(ExplainAnswer explain) {
         mExplain = explain;
     }
 

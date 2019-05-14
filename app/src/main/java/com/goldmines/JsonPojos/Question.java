@@ -8,6 +8,13 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("unused")
 public class Question {
 
+    @Override
+    public String toString() {
+        return "Question{" +
+                "mSimpleQuestion=" + mSimpleQuestion +
+                '}';
+    }
+
     @SerializedName("SimpleQuestion")
     private SimpleQuestion mSimpleQuestion;
 
