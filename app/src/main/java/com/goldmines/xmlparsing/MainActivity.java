@@ -1,16 +1,12 @@
 package com.goldmines.xmlparsing;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.goldmines.pojo.AnswerItem;
-import com.goldmines.pojo.Media;
-import com.goldmines.pojo.MediaItem;
-import com.goldmines.pojo.Questions;
+import com.goldmines.JsonPojos.SimpleQuestion;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
@@ -24,7 +20,7 @@ import static com.goldmines.xmlparsing.XMLFile.sampleXml;
 public class MainActivity extends AppCompatActivity {
     private TextView tv_json;
     private String jsonString=null ;
-    Questions questions;
+    SimpleQuestion questions;
 
 
 
@@ -49,25 +45,28 @@ public class MainActivity extends AppCompatActivity {
         Log.d("XML", sampleXml);
 
         Log.d("JSON", jsonObj.toString());
-  /*      tv_json.setText(jsonObj.toString());*/
+        /*      tv_json.setText(jsonObj.toString());*/
 
         jsonString=jsonObj.toString();
 
 
 
-        Gson gson = new GsonBuilder().registerTypeAdapter(Questions.class, new Media.MediaDeserialiser()).create();
-        Type category  = new TypeToken<Questions>(){}.getType();
-        questions = gson.fromJson(jsonString, category);
-        MediaItem[] mediaItem = questions.getSimpleQuestion().getMedia().getMediaItemArray();
+        Gson gson = new Gson();
+
+        Type category  = new TypeToken<SimpleQuestion>(){}.getType();
+
+          questions = gson.fromJson(jsonString, category);
+        tv_json.setText(questions.getQid());
+     /*    *//*   MediaItemArray[] mediaItem = questions.getSimpleQuestion().getMedia().getMediaItemArray();*//*
         String s= "";
 
-       for( MediaItem a : mediaItem)
+       for( MediaItemArray a : mediaItem)
        {
            s += a.toString()+"\n";
        }
-        s +="\n\n";
-        AnswerItem[] answerItems =   questions.getSimpleQuestion().getAnswers().getAnswerItem();
-
+        s +="\n\n";*//*
+         *//*  AnswerItem[] answerItems =   questions.getSimpleQuestion().getAnswers().getAnswerItem();
+         *//*
 
         for( AnswerItem  a : answerItems)
         {
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             Type mediITemObjectType  = new TypeToken<MediaItem>(){}.getType();
 
             a.getExplain().getMedia().setMediaItemObject(gson.fromJson(a.get, mediITemObjectType));
-        }
+        }*//*
 
         tv_json.setText(s);
         try{
@@ -84,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
 
         catch (Exception e )
         {
-          /*  Log.d("JSON Exception", e.getMessage());
-            tv_json.setText( e.getMessage());*/
-        }
+          *//*  Log.d("JSON Exception", e.getMessage());
+            tv_json.setText( e.getMessage());*//*
+        }*/
 
     }
 }
