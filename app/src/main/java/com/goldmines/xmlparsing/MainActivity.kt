@@ -11,7 +11,9 @@ import android.widget.*
 import com.goldmines.jsonkotlinpojos.AnswerItem
 import com.goldmines.jsonkotlinpojos.MediaItem
 import com.goldmines.jsonkotlinpojos.Question
+import com.goldmines.xmlparsing.MediaX.desirialiser
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main2.*
 import org.json.JSONObject
@@ -33,7 +35,9 @@ class MainActivity : AppCompatActivity() {
         jsonObj = XML.toJSONObject(XMLFile.sampleXml)
 
 
-        questions = Gson().fromJson(jsonObj.toString(), Question::class.java)
+       /* questions = Gson().fromJson(jsonObj.toString(), Question::class.java)*/
+
+        questions=    GsonBuilder().registerTypeAdapter(MediaX::class.java, desirialiser).create().fromJson(jsonObj.toString(), Question::class.java)
 
 /*        tv_json.text = questions.simpleQuestion.answers.answerItem[0].explain.media.mediaItem.location*/
 
@@ -57,10 +61,31 @@ class MainActivity : AppCompatActivity() {
         val rg = RadioGroup(this)
 
         var ansItemList = questions?.simpleQuestion?.answers?.answerItem!!
+        var arrayString  = ""
+
 
 
         for(aI : AnswerItem in ansItemList)
         {
+
+            if(aI.explain.media.mediaItemArray!=null)
+            {
+
+                for (  mI : MediaItem in aI.explain.media.mediaItemArray)
+                {
+                    arrayString += "Array" + mI.content+" \n"
+                }
+
+            }
+            else if(aI.explain.media.mediaItemObject!=null)
+            {
+                arrayString +="Object" + aI.explain.media.mediaItemObject.content+" \n"
+            }
+            else {
+                arrayString = "is null"
+            }
+
+            Log.d(TAG, "arrayStrin :"+arrayString)
             addRadioButton(aI, rg)
         }
 
@@ -102,11 +127,18 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun genQues() {
-        var mediItemList = questions?.simpleQuestion?.media?.mediaItem!!
+        var mediItemList = questions?.simpleQuestion?.media?.mediaItem
 
-        for ( mI : MediaItem in mediItemList)
+        if(mediItemList!=null)
+
         {
-            selectQuesType( mI)
+            for ( mI : MediaItem in mediItemList)
+            {
+                selectQuesType( mI)
+            }
+        }
+        else{
+            Log.d(TAG,"mediaItemList is not array")
         }
 
     }

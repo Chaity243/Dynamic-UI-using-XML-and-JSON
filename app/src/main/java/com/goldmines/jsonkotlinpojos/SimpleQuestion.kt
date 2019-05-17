@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class SimpleQuestion(
         @SerializedName("Answers")
         val answers: Answers,
-        @SerializedName("Media")
+        @SerializedName("MediaX")
         val media: Media,
         @SerializedName("qid")
         val qid: String, // 4849
