@@ -1,35 +1,98 @@
 package com.goldmines.xmlparsing
 
+import android.os.Build
 import android.os.Bundle
-import android.support.design.widget.Snackbar
+import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
+import android.text.Html
+import android.util.Log
+import android.view.View
+import android.widget.*
+import com.goldmines.jsonkotlinpojos.AnswerItem
+import com.goldmines.jsonkotlinpojos.MediaItem
 import com.goldmines.jsonkotlinpojos.Question
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main2.*
-import kotlinx.android.synthetic.main.content_main2.*
 import org.json.JSONObject
 import org.json.XML
 
+
 class MainActivity : AppCompatActivity() {
     var jsonObj: JSONObject? = null
-    var gson = Gson()
-
-
+    var questions :Question?=null
+    var TAG:String?=null
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main2)
+        setContentView(R.layout.activity_main)
+
+        TAG = this.localClassName
         setSupportActionBar(toolbar)
 
         jsonObj = XML.toJSONObject(XMLFile.sampleXml)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+
+        questions = Gson().fromJson(jsonObj.toString(), Question::class.java)
+
+/*        tv_json.text = questions.simpleQuestion.answers.answerItem[0].explain.media.mediaItem.location*/
+
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            genViews()
         }
 
-        var questions = Gson().fromJson(jsonObj.toString(), Question::class.java)
 
-        tv_json.text = questions.simpleQuestion.answers.answerItem[0].explain.media.mediaItem.location
+    }
+
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private fun genViews() {
+        genQues()
+        genAnswers()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private fun genAnswers() {
+        val rg = RadioGroup(this)
+
+        var ansItemList = questions?.simpleQuestion?.answers?.answerItem!!
+
+
+        for(aI : AnswerItem in ansItemList)
+        {
+            addRadioButton(aI, rg)
+        }
+
+        rl_option_container.addView(rg)
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private fun addRadioButton(aI : AnswerItem, rg: RadioGroup) {
+
+        val stringArray = aI.location.split(",")
+        var lP =stringArray[0].toInt()
+
+        var  tP =stringArray[1].toInt()
+        var w =stringArray[2].toInt()
+        var  h =stringArray[3].toInt()
+
+
+
+        var params =  LinearLayout.LayoutParams(w,h)
+        params.leftMargin=lP;
+        params.topMargin=tP
+
+
+
+
+        val rdbtn = RadioButton(this)
+        rdbtn.id = View.generateViewId()
+        rdbtn.text =  Html.fromHtml(aI.content)
+    rg.addView(rdbtn,params)
+ /*      rg.addView(rdbtn)*/
+     //   rg.addView(rdbtn)
     }
 
 
@@ -38,5 +101,63 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    private fun genQues() {
+        var mediItemList = questions?.simpleQuestion?.media?.mediaItem!!
+
+        for ( mI : MediaItem in mediItemList)
+        {
+            selectQuesType( mI)
+        }
+
+    }
+
+    private fun selectQuesType(mI : MediaItem) {
+
+        when(mI.signature){
+            "Picture" -> createQuesIV(mI)
+            "Rtf" -> createQuesTV( mI)
+
+            else ->{
+
+                Log.d(TAG, "signature does not match.")
+            }
+        }
+    }
+
+    private fun createQuesIV(mI: MediaItem) {
+
+        var iv = ImageView(this)
+        iv.setImageResource(android.R.mipmap.sym_def_app_icon)
+        setParams(mI, iv)
+    }
+
+    private fun createQuesTV(mI: MediaItem) {
+        var tvQues_1 = TextView(this)
+        tvQues_1.text = Html.fromHtml(mI.content)
+        tvQues_1.textSize = mI.size.toFloat();
+        setParams(mI, tvQues_1)
+
+    }
+
+    private fun setParams(mI: MediaItem, view: View) {
+        val stringArray = mI.location.split(",")
+        var lP =stringArray[0].toInt()
+
+        var  tP =stringArray[1].toInt()
+        var w =stringArray[2].toInt()
+        var  h =stringArray[3].toInt()
+
+
+
+        var params =  LinearLayout.LayoutParams(w,h)
+        params.leftMargin=lP;
+        params.topMargin=tP
+
+        ll_ques_container.addView(view,params)
+    }
+
 
 }
+
+
+
